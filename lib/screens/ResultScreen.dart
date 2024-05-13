@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ResultScreen extends StatelessWidget {
   final double bmi;
@@ -84,7 +83,7 @@ class ResultScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 80,
+        height: 50,
         color: Colors.black54,
         child: InkWell(
           onTap: () {
@@ -99,7 +98,7 @@ class ResultScreen extends StatelessWidget {
           },
           child: const Padding(
             padding: EdgeInsets.symmetric(
-              vertical: 25.0,
+              vertical: 10.0,
             ),
             child: Column(
               children: <Widget>[

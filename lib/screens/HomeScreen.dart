@@ -1,12 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:bmi_calculator/screens/result_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bmi_calculator/screens/ResultScreen.dart';
+import 'package:bmi_calculator/widgets/GenderWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,14 +12,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isMale = true;
+  bool isMaleSelected = true;
   double height_in_cm = 0.5;
   int weight_in_kg = 60;
-  int age_in_years = 30;
-
-  void dispose() {
-    super.dispose();
-  }
+  int ageInYears = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -54,89 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      isMale = true;
+                      isMaleSelected = true;
                     });
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isMale
-                          ? const Color.fromARGB(151, 19, 7, 7)
-                          : const Color.fromARGB(80, 19, 7, 7),
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          10,
-                        ),
-                      ),
-                    ),
-                    width: 150,
-                    height: 200,
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.male,
-                          color: Colors.white,
-                          size: 80,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Male",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 216, 216, 216),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  child: GenderWidget(
+                      isMaleSelected: isMaleSelected, gender: "Male"),
                 ),
                 InkWell(
-                  onTap: () {
-                    setState(() {
-                      isMale = false;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: isMale
-                          ? const Color.fromARGB(80, 19, 7, 7)
-                          : const Color.fromARGB(151, 19, 7, 7),
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          10,
-                        ),
-                      ),
-                    ),
-                    width: 150,
-                    height: 200,
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.female,
-                          color: Colors.white,
-                          size: 80,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Female",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 216, 216, 216),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                    onTap: () {
+                      setState(() {
+                        isMaleSelected = false;
+                      });
+                    },
+                    child: GenderWidget(
+                        isMaleSelected: !isMaleSelected, gender: "Female")),
               ],
             ),
             Container(
@@ -333,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: age_in_years.toString(),
+                              text: ageInYears.toString(),
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 216, 216, 216),
                                 fontSize: 30,
@@ -357,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                age_in_years = age_in_years - 1;
+                                ageInYears = ageInYears - 1;
                               });
                             },
                             child: Container(
@@ -381,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                age_in_years = age_in_years + 1;
+                                ageInYears = ageInYears + 1;
                               });
                             },
                             child: Container(
@@ -413,22 +336,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 80,
+        height: 50,
         color: Colors.black54,
         child: InkWell(
           onTap: () {
-            var height_in_m = ((height_in_cm * 300) / 100);
-            double bmi = weight_in_kg / pow(height_in_m, 2);
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ResultScreen(
-                        bmi: bmi,
+                        bmi: calculateBMI(),
                       )),
             );
           },
           child: const Padding(
-            padding: EdgeInsets.only(top: 25.0),
+            padding: EdgeInsets.only(top: 10.0),
             child: Column(
               children: <Widget>[
                 Text(
@@ -445,5 +366,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  double calculateBMI()
+  {
+    var heightInM = ((height_in_cm * 300) / 100);
+    double bmi = weight_in_kg / pow(heightInM, 2);
+    return bmi;
   }
 }
