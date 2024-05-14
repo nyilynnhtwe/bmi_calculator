@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:bmi_calculator/screens/ResultScreen.dart';
+import 'package:bmi_calculator/widgets/DecreaseBtn.dart';
 import 'package:bmi_calculator/widgets/GenderWidget.dart';
+import 'package:bmi_calculator/widgets/IncreaseBtn.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -119,217 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(80, 19, 7, 7),
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        10,
-                      ),
-                    ),
-                  ),
-                  width: 150,
-                  height: 200,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Weight",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 141, 255, 187),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: weight_in_kg.toString(),
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 216, 216, 216),
-                                fontSize: 30,
-                              ),
-                            ),
-                            const WidgetSpan(
-                              child: SizedBox(width: 4),
-                            ),
-                            const TextSpan(
-                              text: "KG",
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                weight_in_kg = weight_in_kg - 1;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(
-                                10,
-                              ),
-                              decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(
-                                    30,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                weight_in_kg = weight_in_kg + 1;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(
-                                10,
-                              ),
-                              decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(
-                                    30,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(80, 19, 7, 7),
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        10,
-                      ),
-                    ),
-                  ),
-                  width: 150,
-                  height: 200,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Age",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 141, 255, 187),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: ageInYears.toString(),
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 216, 216, 216),
-                                fontSize: 30,
-                              ),
-                            ),
-                            const WidgetSpan(
-                              child: SizedBox(width: 4),
-                            ),
-                            const TextSpan(
-                              text: "Years",
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                ageInYears = ageInYears - 1;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(
-                                10,
-                              ),
-                              decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(
-                                    30,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                ageInYears = ageInYears + 1;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(
-                                10,
-                              ),
-                              decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(
-                                    30,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              children: <Widget>[
+                ageBox(),
+                weightBox(),
               ],
             ),
           ],
@@ -368,10 +162,161 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  double calculateBMI()
-  {
+  double calculateBMI() {
     var heightInM = ((height_in_cm * 300) / 100);
     double bmi = weight_in_kg / pow(heightInM, 2);
     return bmi;
+  }
+
+  Widget ageBox() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(80, 19, 7, 7),
+        border: Border.all(
+          color: Colors.white,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            10,
+          ),
+        ),
+      ),
+      width: 150,
+      height: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Age",
+            style: TextStyle(
+              fontSize: 15,
+              color: Color.fromARGB(255, 141, 255, 187),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: ageInYears.toString(),
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 216, 216, 216),
+                    fontSize: 30,
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 4),
+                ),
+                const TextSpan(
+                  text: "Years",
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    ageInYears = ageInYears - 1;
+                  });
+                },
+                child: const DecreaseBtn(),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    ageInYears = ageInYears + 1;
+                  });
+                },
+                child: const IncreaseBtn(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget weightBox() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(80, 19, 7, 7),
+        border: Border.all(
+          color: Colors.white,
+        ),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(
+            10,
+          ),
+        ),
+      ),
+      width: 150,
+      height: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Weight",
+            style: TextStyle(
+              fontSize: 15,
+              color: Color.fromARGB(255, 141, 255, 187),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: weight_in_kg.toString(),
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 216, 216, 216),
+                    fontSize: 30,
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 4),
+                ),
+                const TextSpan(
+                  text: "KG",
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    weight_in_kg = weight_in_kg - 1;
+                  });
+                },
+                child: const DecreaseBtn(),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    weight_in_kg = weight_in_kg + 1;
+                  });
+                },
+                child: const IncreaseBtn(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
